@@ -8,8 +8,7 @@ from bs4 import BeautifulSoup  # для работы с HTML
 
 import SQLighter
 
-sleep = 3  # время задержки
-name = "Gazprom"
+# sleep = 3  # время задержки
 
 # Получение и обновление цены
 def update_price_stocks(link_stock, name_stock):
@@ -39,7 +38,6 @@ def update_price_stocks(link_stock, name_stock):
     SQLighter.update_price_stocks(name_stock, price)
 
     print(f"Цена акции {name_stock}: ", price)
-
     # # устанавливаем задержку
     # time.sleep(sleep)
     # update_price_stocks(link_stock)  # вызываем эту же функцию снова
@@ -75,6 +73,8 @@ def update_technical_analysis(name_stock):
 
     return min_5, min_15, min_60, day
 
-
-technical_analysis = update_technical_analysis(name)
-SQLighter.update_technical_analysis(name, technical_analysis)
+def start_prog(name):
+    technical_analysis = update_technical_analysis(name)
+    link = SQLighter.get_link_stocks(name)
+    update_price_stocks(link, name)
+    SQLighter.update_technical_analysis(name, technical_analysis)
